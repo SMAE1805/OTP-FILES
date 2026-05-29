@@ -1,41 +1,35 @@
 import express from "express";
 import cors from "cors";
+import nodemailer from "nodemailer";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-const API_KEY = "re_5WAXCfoD_DWPV8AcwXfRZ9o7bLdmRfz4E";
+// ✅ Nodemailer setup
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "yourgmail@gmail.com",   // ✅ Your Gmail
+    pass: "zmgfrxswtxxkxuyx",      // ✅ App password (NO spaces)
+  },
+});
 
 app.post("/send-otp", async (req, res) => {
   const { email, otp } = req.body;
 
-  console.log("Received request:", req.body); // ✅ debug
+  console.log("Received request:", email, otp);
 
   try {
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: "onboarding@resend.dev",
-        to: email,
-        subject: "Your OTP Code",
-        html: `<h2>Your OTP is: ${otp}</h2>`,
-      }),
+    await transporter.sendMail({
+      from: `"Hero Cycles OTP" <yourgmail@gmail.com>`,
+      to: email,
+      subject: "Your OTP Code",
+      html: `<h2>Your OTP is: ${otp}</h2>`,
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error("Resend error:", data);
-      return res.json({ success: false });
-    }
-
-    console.log("✅ Email sent:", data);
+    console.log("✅ Email sent");
 
     res.json({ success: true });
 
