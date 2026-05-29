@@ -11,8 +11,8 @@ app.use(express.json());
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "yourgmail@gmail.com",   // ✅ Your Gmail
-    pass: "zmgfrxswtxxkxuyx",      // ✅ App password (NO spaces)
+    user: "dtoherocycles@gmail.com",   // ✅ Your Gmail
+    pass: "vvitbmqajjdkqidd",      // ✅ App password (NO spaces)
   },
 });
 
@@ -23,7 +23,7 @@ app.post("/send-otp", async (req, res) => {
 
   try {
     await transporter.sendMail({
-      from: `"Hero Cycles OTP" <yourgmail@gmail.com>`,
+      from: `"Hero Cycles OTP" <dtoherocycles@gmail.com>`,
       to: email,
       subject: "Your OTP Code",
       html: `<h2>Your OTP is: ${otp}</h2>`,
