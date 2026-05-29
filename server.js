@@ -7,40 +7,30 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ Nodemailer (Gmail SMTP - works on Railway)
+// ✅ Gmail SMTP (FIXED version for Railway)
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 465,        // ✅ changed
-  secure: true,     // ✅ changed (important)
+  port: 465,
+  secure: true, // ✅ IMPORTANT
   auth: {
-    user: "dtoherocycles@gmail.com",
-    pass: "vvitbmqajjdkqidd",
-  },
-  tls: {
-    rejectUnauthorized: false,
+    user: "dtoherocycles@gmail.com",       // ✅ your Gmail
+    pass: "vvitbmqajjdkqidd",              // ✅ app password (NO spaces)
   },
 });
 
+// ✅ OTP API
 app.post("/send-otp", async (req, res) => {
   const { email, otp } = req.body;
 
   console.log("📩 Sending OTP to:", email);
 
   try {
-    // ✅ Email send with timeout protection
-    const sendPromise = transporter.sendMail({
+    await transporter.sendMail({
       from: `"Hero Cycles OTP" <dtoherocycles@gmail.com>`,
       to: email,
       subject: "Your OTP Code",
       html: `<h2>Your OTP is: ${otp}</h2>`,
     });
-
-    await Promise.race([
-      sendPromise,
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("Timeout ❌")), 12000)
-      ),
-    ]);
 
     console.log("✅ Email sent successfully");
 
