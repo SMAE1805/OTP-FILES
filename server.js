@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 // ⚠️ Replace with your NEW API key after deleting old one
-const API_KEY = "YOUR_NEW_RESEND_API_KEY";
+const API_KEY = "re_5WAXCfoD_DWPV8AcwXfRZ9o7bLdmRfz4E";
 
 app.post("/send-otp", async (req, res) => {
   const { email, otp } = req.body;
