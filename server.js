@@ -10,11 +10,14 @@ app.use(express.json());
 // ✅ Nodemailer (Gmail SMTP - works on Railway)
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
+  port: 465,        // ✅ changed
+  secure: true,     // ✅ changed (important)
   auth: {
-    user: "dtoherocycles@gmail.com", // ✅ your Gmail
-    pass: "vvitbmqajjdkqidd",       // ✅ app password (NO spaces)
+    user: "dtoherocycles@gmail.com",
+    pass: "vvitbmqajjdkqidd",
+  },
+  tls: {
+    rejectUnauthorized: false,
   },
 });
 
