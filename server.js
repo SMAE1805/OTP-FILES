@@ -9,10 +9,12 @@ app.use(express.json());
 
 // ✅ Nodemailer setup
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: "dtoherocycles@gmail.com",   // ✅ Your Gmail
-    pass: "vvitbmqajjdkqidd",      // ✅ App password (NO spaces)
+    user: "dtoherocycles@gmail.com",
+    pass: "vvitbmqajjdkqidd",
   },
 });
 
